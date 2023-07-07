@@ -50,7 +50,7 @@ create or replace table credit_records(
 """
 
 
-def create_table(sql_contents):
+def run_sql(sql_contents):
     with Session.builder.configs(snowflake_conn_params).create() as s:
         result = s.sql(sql_contents).collect()
     return result
@@ -75,15 +75,26 @@ with DAG(
 ) as dag:
     t1 = PythonOperator(
         task_id="create_application_record_task",
-        python_callable=create_table,
+        python_callable=run_sql,
+        op_kwargs={"sql_contents": "create database if not exists staples;"},
+    )
+    t2 = PythonOperator(
+        task_id="create_application_record_task",
+        python_callable=run_sql,
+        op_kwargs={"sql_contents": "create schema if not exists credit_score;"},
+    )
+
+    t3 = PythonOperator(
+        task_id="create_application_record_task",
+        python_callable=run_sql,
         op_kwargs={"sql_contents": app_sql},
     )
 
-    t2 = PythonOperator(
+    t4 = PythonOperator(
         task_id="create_credit_task",
-        python_callable=create_table,
+        python_callable=run_sql,
         op_kwargs={"sql_contents": cre_sql},
     )
 
 
-[t1, t2]
+t1 >> t2 >> [t3, t4]
