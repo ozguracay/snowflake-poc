@@ -78,7 +78,7 @@ def register_model_training():
                 input_stream, f"@model_stage/{model_id}.pkl"
             )
 
-            df = session.createDataFrame(
+            df = session.create_dataframe(
                 [
                     (
                         f"{model_id}",
@@ -95,7 +95,7 @@ def register_model_training():
                 ],
             )
 
-            df.write.insertInto("MODEL_PERFORMANCE")
+            df.write.mode("insert").save_as_table("MODEL_PERFORMANCE")
             return None
 
 
