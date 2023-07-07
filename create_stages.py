@@ -45,18 +45,18 @@ with DAG(
 ) as dag:
     t1 = PythonOperator(
         task_id="create_sproc_stage",
-        params={"stage_name": "sproc"},
+        op_kwargs={"stage_name": "sproc"},
         python_callable=create_stages,
     )
     t2 = PythonOperator(
         task_id="create_model_stage",
-        params={"stage_name": "model"},
+        op_kwargs={"stage_name": "model"},
         python_callable=create_stages,
     )
 
     t3 = PythonOperator(
         task_id="create_prod_model_stage",
-        params={"stage_name": "prod_model"},
+        op_kwargs={"stage_name": "prod_model"},
         python_callable=create_stages,
     )
 
