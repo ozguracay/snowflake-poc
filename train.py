@@ -142,14 +142,7 @@ with DAG(
     schedule_interval=timedelta(days=1),
     catchup=False,
 ) as dag:
-    t1 = PythonOperator(task_id="create_label", python_callable=create_label)
-    t2 = PythonOperator(
-        task_id="create_ml_raw_data", python_callable=create_ml_raw_data
-    )
-    t3 = PythonOperator(
-        task_id="create_test_train_data", python_callable=create_test_train_data
-    )
     t4 = PythonOperator(task_id="train_model", python_callable=train_model)
     t5 = PythonOperator(task_id="register_predict", python_callable=register_predict)
 
-t1 >> t2 >> t3 >> t4 >> t5
+t4 >> t5
