@@ -79,7 +79,7 @@ def register_model_training():
             )
 
             df = session.createDataFrame(
-                [(model_id, hyper_parameters, datetime.now().date(), test_score)],
+                [(f"{model_id}", hyper_parameters, datetime.now().date(), test_score)],
                 schema=[
                     ("MODEL_ID", StringType()),
                     ("HYPER_PARAMETERS", VariantType()),
