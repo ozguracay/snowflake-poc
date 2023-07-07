@@ -120,6 +120,12 @@ def bulk_predict():
     return None
 
 
+def create_prediction():
+    with Session.builder.configs(snowflake_conn_params).create() as s:
+        result = s.call("predict_credit")
+    return result
+
+
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
@@ -146,4 +152,11 @@ with DAG(
         task_id="register_best_model",
         python_callable=bulk_predict,
     )
-t1 >> t2
+
+    t3 = PythonOperator(
+        task_id="create_prediction",
+        python_callable=create_prediction,
+    )
+
+
+t1 >> t2 >> t3
