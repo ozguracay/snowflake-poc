@@ -68,9 +68,9 @@ def register_model_training():
 
             pipeline = make_pipeline(transformer, xgb)
             pipeline.fit(x, y)
-            test_score = pipeline.score(x_test, y_test)
+            # test_score = pipeline.score(x_test, y_test)
 
-            hyper_parameters = pipeline.get_params()
+            # hyper_parameters = pipeline.get_params()
 
             input_stream = io.BytesIO()
             pickle.dump(pipeline, input_stream)
