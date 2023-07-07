@@ -1,0 +1,20 @@
+create or replace table application_records(
+    ID int,
+    CODE_GENDER varchar,
+    FLAG_OWN_CAR varchar,
+    FLAG_OWN_REALTY varchar,
+    CNT_CHILDREN number,
+    AMT_INCOME_TOTAL double,
+    NAME_INCOME_TYPE varchar,
+    NAME_EDUCATION_TYPE varchar,
+    NAME_FAMILY_STATUS varchar,
+    NAME_HOUSING_TYPE varchar,
+    DAYS_BIRTH number,
+    DAYS_EMPLOYED number,
+    FLAG_MOBIL int,
+    FLAG_WORK_PHONE int,
+    FLAG_PHONE int,
+    FLAG_EMAIL int,
+    OCCUPATION_TYPE varchar,
+    CNT_FAM_MEMBERS number
+);
