@@ -18,7 +18,7 @@ snowflake_conn_params = {
 }
 
 app_sql = f"""
-create or replace table application_records(
+create table if not exists application_records(
     ID int,
     CODE_GENDER varchar,
     FLAG_OWN_CAR varchar,
@@ -41,7 +41,7 @@ create or replace table application_records(
 
 """
 cre_sql = f"""
-create or replace table credit_records(
+create table table if not exists credit_records(
     id int,
     months_balance number,
     status varchar
