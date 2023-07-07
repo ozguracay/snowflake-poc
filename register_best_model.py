@@ -37,9 +37,9 @@ default_args = {
 }
 
 with DAG(
-    "create_stages",
+    "find_best_model",
     default_args=default_args,
-    description="Create stages in Snowflake",
+    description="find and promote best model",
     schedule_interval=None,
     catchup=False,
 ) as dag:
