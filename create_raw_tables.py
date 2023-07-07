@@ -48,13 +48,13 @@ with DAG(
     t1 = PythonOperator(
         task_id="create_application_record_task",
         python_callable=create_table,
-        op_kwargs={"sql_file_path": "sql/application_record_table.sql "},
+        op_kwargs={"sql_file_path": "application_record_table.sql "},
     )
 
     t2 = PythonOperator(
         task_id="create_credit_task",
         python_callable=create_table,
-        op_kwargs={"sql_file_path": "sql/credit_record_table.sql "},
+        op_kwargs={"sql_file_path": "credit_record_table.sql "},
     )
 
 
