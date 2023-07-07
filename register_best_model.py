@@ -19,7 +19,7 @@ snowflake_conn_params = {
 }
 
 
-def find_model_id(stage_name):
+def find_model_id():
     with Session.builder.configs(snowflake_conn_params).create() as s:
         model_id = s.sql(
             f"select model_id from model_performance order by model score desc limit 1"
