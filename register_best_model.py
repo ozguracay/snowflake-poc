@@ -22,7 +22,7 @@ snowflake_conn_params = {
 def find_model_id():
     with Session.builder.configs(snowflake_conn_params).create() as s:
         model_id = s.sql(
-            f"select model_id from model_performance order by model score desc limit 1"
+            f"select model_id from model_performance order by model_score desc limit 1"
         ).collect()
         s.file.get(f"@model_stage/{model_id}.pkl", "model")
         os.rename(f"model/{model_id}.pkl", "model/model.pkl")
