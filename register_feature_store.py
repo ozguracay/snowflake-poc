@@ -63,12 +63,8 @@ def register_ml_raw_data():
             stage_location="@sproc_stage",
         )
         def combine_label_and_features(session: Session) -> None:
-            df_application = session.table(
-                "STAPLES_DEMO.CREDIT_SCORE.APPLICATION_RECORDS"
-            )
-            df_label = session.table(
-                "STAPLES_DEMO.CREDIT_SCORE.CREDIT_RECORDS_WITH_LABEL"
-            )
+            df_application = session.table("APPLICATION_RECORDS")
+            df_label = session.table("CREDIT_RECORDS_WITH_LABEL")
 
             df_application.join(
                 df_label,
@@ -94,7 +90,7 @@ def register_test_train_data():
             stage_location="@sproc_stage",
         )
         def test_train_split(session: Session) -> None:
-            df = session.table("STAPLES_DEMO.CREDIT_SCORE.ML_RAW_DATA")
+            df = session.table("ML_RAW_DATA")
             df_train, df_test = df.random_split([0.8, 0.2], seed=42)
 
             df_train.write.mode("overwrite").save_as_table("TRAIN_DATA")
