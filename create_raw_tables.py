@@ -17,12 +17,40 @@ snowflake_conn_params = {
     "role": Variable.get("snowflake_role"),
 }
 
+app_sql = f"""
+create or replace table application_records(
+    ID int,
+    CODE_GENDER varchar,
+    FLAG_OWN_CAR varchar,
+    FLAG_OWN_REALTY varchar,
+    CNT_CHILDREN number,
+    AMT_INCOME_TOTAL double,
+    NAME_INCOME_TYPE varchar,
+    NAME_EDUCATION_TYPE varchar,
+    NAME_FAMILY_STATUS varchar,
+    NAME_HOUSING_TYPE varchar,
+    DAYS_BIRTH number,
+    DAYS_EMPLOYED number,
+    FLAG_MOBIL int,
+    FLAG_WORK_PHONE int,
+    FLAG_PHONE int,
+    FLAG_EMAIL int,
+    OCCUPATION_TYPE varchar,
+    CNT_FAM_MEMBERS number
+);
 
-def create_table(sql_file_path):
-    # Read SQL file contents
-    with open(sql_file_path, "r") as sql_file:
-        sql_contents = sql_file.read()
+"""
+cre_sql = f"""
+create or replace table credit_records(
+    id int,
+    months_balance number,
+    status varchar
+); 
 
+"""
+
+
+def create_table(sql_contents):
     with Session.builder.configs(snowflake_conn_params).create() as s:
         result = s.sql(sql_contents).collect()
     return result
@@ -48,13 +76,13 @@ with DAG(
     t1 = PythonOperator(
         task_id="create_application_record_task",
         python_callable=create_table,
-        op_kwargs={"sql_file_path": "application_record_table.sql "},
+        op_kwargs={"sql_contents": app_sql},
     )
 
     t2 = PythonOperator(
         task_id="create_credit_task",
         python_callable=create_table,
-        op_kwargs={"sql_file_path": "credit_record_table.sql "},
+        op_kwargs={"sql_contents": cre_sql},
     )
 
 
