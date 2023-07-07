@@ -2,6 +2,7 @@ import io
 import pickle
 from datetime import datetime, timedelta
 import uuid
+import json
 
 
 from airflow import DAG
@@ -82,7 +83,7 @@ def register_model_training():
                 [
                     (
                         f"{model_id}",
-                        hyper_parameters,
+                        json.dump(hyper_parameters),
                         datetime.now(),
                         float(test_score),
                     )
