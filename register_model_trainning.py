@@ -56,7 +56,7 @@ def register_model_training():
             x_test = df_test[df_test.columns[:-1]]
             y_test = df_test["LABEL"]
 
-            xgb = XGBClassifier(use_label_encoder=False)
+            xgb = XGBClassifier(use_label_encoder=True)
 
             pipeline = xgb
             pipeline.fit(x, y)
