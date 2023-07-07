@@ -82,20 +82,15 @@ def register_model_training():
                 [
                     (
                         f"{model_id}",
-                        # {1: 2},
+                        hyper_parameters,
                         datetime.now(),
                         float(test_score),
                     )
                 ],
-                schema=[
-                    ("MODEL_ID", StringType()),
-                    # ("HYPER_PARAMETERS", VariantType()),
-                    ("TRAINING_TIME", TimeType()),
-                    ("MODEL_SCORE", FloatType()),
-                ],
+                schema=["MODEL_ID", "HYPER_PARAMETERS", "TRAINING_TIME", "MODEL_SCORE"],
             )
 
-            # df.write.mode("insert").save_as_table("MODEL_PERFORMANCE")
+            df.write.mode("append").save_as_table("MODEL_PERFORMANCE")
             return None
 
 
