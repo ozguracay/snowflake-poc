@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import os
 from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
@@ -20,10 +21,15 @@ snowflake_conn_params = {
 
 def find_model_id(stage_name):
     with Session.builder.configs(snowflake_conn_params).create() as s:
-        result = s.sql(
+        model_id = s.sql(
             f"select model_id from model_performance order by model score desc limit 1"
         ).collect()
-    return result
+        s.file.get(f"@model_stage/{model_id}.pkl", "model")
+        os.rename(f"model/{model_id}.pkl", "model/model.pkl")
+        s.file.put(
+            "model/model.pkl", "@prod_model_stage", auto_compress=False, overwrite=True
+        )
+    return
 
 
 default_args = {
