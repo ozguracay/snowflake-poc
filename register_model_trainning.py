@@ -82,7 +82,7 @@ def register_model_training():
                 [
                     (
                         f"{model_id}",
-                        hyper_parameters,
+                        {1: 2},
                         datetime.now(),
                         float(test_score),
                     )
