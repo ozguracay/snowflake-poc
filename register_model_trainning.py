@@ -78,17 +78,17 @@ def register_model_training():
                 input_stream, f"@models_stage/{model_id}.pkl"
             )
 
-            df = session.createDataFrame(
-                [(model_id, hyper_parameters, datetime.now().date(), test_score)],
-                schema=[
-                    ("MODEL_ID", StringType()),
-                    ("HYPER_PARAMETERS", Variant()),
-                    ("TRAINING_TIME", TimeType()),
-                    ("MODEL_SCORE", FloatType()),
-                ],
-            )
+            # df = session.createDataFrame(
+            #     [(model_id, hyper_parameters, datetime.now().date(), test_score)],
+            #     schema=[
+            #         ("MODEL_ID", StringType()),
+            #         ("HYPER_PARAMETERS", Variant()),
+            #         ("TRAINING_TIME", TimeType()),
+            #         ("MODEL_SCORE", FloatType()),
+            #     ],
+            # )
 
-            df.write.insertInto("MODEL_PERFORMANCE")
+            # df.write.insertInto("MODEL_PERFORMANCE")
             return None
 
 
