@@ -13,7 +13,7 @@ from sklearn.preprocessing import OneHotEncoder
 from snowflake.snowpark import Session
 from snowflake.snowpark.functions import sproc
 from xgboost import XGBClassifier
-from snowflake.snowpark.types import StringType, TimeType, VariantType, FloatType
+from snowflake.snowpark.types import StringType, TimeType, Variant, FloatType
 
 
 # Define the Snowflake connection parameters as Airflow variables.
@@ -78,17 +78,17 @@ def register_model_training():
                 input_stream, f"@model_stage/{model_id}.pkl"
             )
 
-            # df = session.createDataFrame(
-            #     [(model_id, hyper_parameters, datetime.now().date(), test_score)],
-            #     schema=[
-            #         ("MODEL_ID", StringType()),
-            #         ("HYPER_PARAMETERS", Variant()),
-            #         ("TRAINING_TIME", TimeType()),
-            #         ("MODEL_SCORE", FloatType()),
-            #     ],
-            # )
+            df = session.createDataFrame(
+                [(model_id, hyper_parameters, datetime.now().date(), test_score)],
+                schema=[
+                    ("MODEL_ID", StringType()),
+                    ("HYPER_PARAMETERS", Variant()),
+                    ("TRAINING_TIME", TimeType()),
+                    ("MODEL_SCORE", FloatType()),
+                ],
+            )
 
-            # df.write.insertInto("MODEL_PERFORMANCE")
+            df.write.insertInto("MODEL_PERFORMANCE")
             return None
 
 
