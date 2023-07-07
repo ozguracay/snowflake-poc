@@ -74,12 +74,12 @@ with DAG(
     catchup=False,
 ) as dag:
     t1 = PythonOperator(
-        task_id="create_application_record_task",
+        task_id="create_database",
         python_callable=run_sql,
         op_kwargs={"sql_contents": "create database if not exists staples;"},
     )
     t2 = PythonOperator(
-        task_id="create_application_record_task",
+        task_id="create_schema",
         python_callable=run_sql,
         op_kwargs={"sql_contents": "create schema if not exists credit_score;"},
     )
