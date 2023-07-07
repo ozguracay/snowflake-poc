@@ -40,7 +40,7 @@ def find_model_id():
 
 def bulk_predict():
     with Session.builder.configs(snowflake_conn_params).create() as s:
-        s.add_import("@model_stage/model.pkl")
+        s.add_import("@prod_model_stage/model.pkl")
         s.add_packages(
             "snowflake-snowpark-python",
             "scikit-learn",
