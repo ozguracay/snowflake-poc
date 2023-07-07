@@ -83,7 +83,7 @@ def register_model_training():
                 [
                     (
                         f"{model_id}",
-                        json.dumps(hyper_parameters, indent=4),
+                        json.dumps(hyper_parameters),
                         datetime.now(),
                         float(test_score),
                     )
