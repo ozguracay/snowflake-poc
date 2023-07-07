@@ -47,7 +47,7 @@ default_args = {
 }
 
 with DAG(
-    "train",
+    "refresh_feature_store",
     default_args=default_args,
     description="train ml model",
     schedule_interval=timedelta(days=1),
