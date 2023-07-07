@@ -56,17 +56,9 @@ def register_model_training():
             x_test = df_test[df_test.columns[:-1]]
             y_test = df_test["LABEL"]
 
-            categorical_columns = x.select_dtypes(include=["object"]).columns.to_list()
-
-            categorical_pipeline = Pipeline(
-                [("OneHot", OneHotEncoder(handle_unknown="ignore"))]
-            )
-            transformer = ColumnTransformer(
-                [("cat", categorical_pipeline, categorical_columns)]
-            )
             xgb = XGBClassifier(use_label_encoder=False)
 
-            pipeline = make_pipeline(transformer, xgb)
+            pipeline = xgb
             pipeline.fit(x, y)
             # test_score = pipeline.score(x_test, y_test)
 
