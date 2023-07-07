@@ -53,7 +53,7 @@ def train_model():
 
 def register_predict():
     with Session.builder.configs(snowflake_conn_params).create() as s:
-        s.add_import("@models_stage/model.pkl")
+        s.add_import("@model_stage/model.pkl")
         s.add_packages(
             "snowflake-snowpark-python",
             "scikit-learn",
@@ -131,7 +131,7 @@ default_args = {
     "start_date": datetime(2023, 4, 25),
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 1,
+    "retries": 0,
     "retry_delay": timedelta(minutes=1),
 }
 
