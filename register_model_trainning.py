@@ -48,8 +48,8 @@ def register_model_training():
         )
         def train_model(session: Session) -> None:
             hyper_parameters = {
-                "max_depth": 4,
-                "eta": 0.2,
+                "max_depth": 10,
+                "eta": 0.3,
             }
 
             model_id = uuid.uuid4()
