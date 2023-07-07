@@ -82,14 +82,14 @@ def register_model_training():
                 [
                     (
                         f"{model_id}",
-                        {1: 2},
+                        # {1: 2},
                         datetime.now(),
                         float(test_score),
                     )
                 ],
                 schema=[
                     ("MODEL_ID", StringType()),
-                    ("HYPER_PARAMETERS", VariantType()),
+                    # ("HYPER_PARAMETERS", VariantType()),
                     ("TRAINING_TIME", TimeType()),
                     ("MODEL_SCORE", FloatType()),
                 ],
