@@ -37,9 +37,9 @@ default_args = {
 }
 
 with DAG(
-    "register stages",
+    "create_stages",
     default_args=default_args,
-    description="register stages",
+    description="Create stages in Snowflake",
     schedule_interval=None,
     catchup=False,
 ) as dag:
