@@ -47,6 +47,11 @@ def register_model_training():
             stage_location="@sproc_stage",
         )
         def train_model(session: Session) -> None:
+            hyper_parameters = {
+                "max_depth": 4,
+                "eta": 0.2,
+            }
+
             model_id = uuid.uuid4()
             df = session.table("TRAIN_DATA").to_pandas()
             df_test = session.table("TEST_DATA").to_pandas()
@@ -65,13 +70,11 @@ def register_model_training():
             transformer = ColumnTransformer(
                 [("cat", categorical_pipeline, categorical_columns)]
             )
-            xgb = XGBClassifier()
+            xgb = XGBClassifier(**hyper_parameters)
 
-            pipeline = make_pipeline(transformer, xgb)
+            pipeline = make_pipeline(("transformer", transformer), ("xgb", xgb))
             pipeline.fit(x, y)
             test_score = pipeline.score(x_test, y_test)
-
-            hyper_parameters = pipeline.get_params()
 
             input_stream = io.BytesIO()
             pickle.dump(pipeline, input_stream)
