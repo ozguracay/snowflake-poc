@@ -1,21 +1,12 @@
-import os
-import pickle
-import sys
 from datetime import datetime, timedelta
-
-import cachetools
 from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline, make_pipeline
-from sklearn.preprocessing import OneHotEncoder
 from snowflake.snowpark import Session
-from snowflake.snowpark.functions import col, lit
-from snowflake.snowpark.functions import max as max_
-from snowflake.snowpark.functions import sproc, udf, when
-from xgboost import XGBClassifier
 
+
+# Define the Snowflake connection parameters as Airflow variables.
+# This makes it easier to reuse them across DAGs and to manage them via the UI.
 snowflake_conn_params = {
     "account": Variable.get("snowflake_account"),
     "user": Variable.get("snowflake_user"),
@@ -27,9 +18,11 @@ snowflake_conn_params = {
 }
 
 
-def train_model():
+def find_model_id(stage_name):
     with Session.builder.configs(snowflake_conn_params).create() as s:
-        result = s.call("train_model")
+        result = s.sql(
+            f"select model_id from model_performance order by model score desc limit 1"
+        ).collect()
     return result
 
 
@@ -44,13 +37,14 @@ default_args = {
 }
 
 with DAG(
-    "train",
+    "create_stages",
     default_args=default_args,
-    description="train ml model",
-    schedule_interval=timedelta(days=1),
+    description="Create stages in Snowflake",
+    schedule_interval=None,
     catchup=False,
 ) as dag:
-    t4 = PythonOperator(task_id="train_model", python_callable=train_model)
-    t5 = PythonOperator(task_id="register_predict", python_callable=register_predict)
-
-t4 >> t5
+    t1 = PythonOperator(
+        task_id="find_model_id",
+        python_callable=find_model_id,
+    )
+t1
