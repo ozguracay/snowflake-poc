@@ -84,7 +84,7 @@ def register_model_training():
                         f"{model_id}",
                         hyper_parameters,
                         datetime.now().date(),
-                        test_score.values()[0],
+                        float(test_score),
                     )
                 ],
                 schema=[
