@@ -31,7 +31,7 @@ def create_table(sql_file_path):
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": None,
+    "start_date": datetime(2023, 4, 25),
     "email_on_failure": False,
     "email_on_retry": False,
     "retries": 1,
