@@ -72,7 +72,7 @@ def register_model_training():
             )
             xgb = XGBClassifier(**hyper_parameters)
 
-            pipeline = make_pipeline(("transformer", transformer), ("xgb", xgb))
+            pipeline = make_pipeline(transformer, xgb)
             pipeline.fit(x, y)
             test_score = pipeline.score(x_test, y_test)
 
