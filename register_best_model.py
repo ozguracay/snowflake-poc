@@ -24,6 +24,7 @@ def find_model_id():
         model_id = s.sql(
             f"select model_id from model_performance order by model_score desc limit 1"
         ).collect()
+        model_id = str(model_id).split("'")[1]
         s.file.get(f"@model_stage/{model_id}.pkl", "model")
         os.rename(f"model/{model_id}.pkl", "model/model.pkl")
         s.file.put(
