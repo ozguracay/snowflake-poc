@@ -75,7 +75,7 @@ def register_model_training():
             input_stream = io.BytesIO()
             pickle.dump(pipeline, input_stream)
             session._conn._cursor.upload_stream(
-                input_stream, f"@models_stage/{model_id}.pkl"
+                input_stream, f"@model_stage/{model_id}.pkl"
             )
 
             # df = session.createDataFrame(
