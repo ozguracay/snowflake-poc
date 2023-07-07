@@ -31,9 +31,9 @@ def find_model_id():
         ).collect()
         model_id = str(model_id).split("'")[1]
         s.file.get(f"@model_stage/{model_id}.pkl", "model")
-        os.rename(f"model/{model_id}.pkl", "model/model.pkl")
+        os.rename(f"model/{model_id}.pkl", "model.pkl")
         s.file.put(
-            "model/model.pkl", "@prod_model_stage", auto_compress=False, overwrite=True
+            "model.pkl", "@prod_model_stage", auto_compress=False, overwrite=True
         )
     return None
 
